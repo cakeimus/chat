@@ -35,6 +35,8 @@ const roomSearch = $("#roomSearch");
 const directory = $("#directory");
 const chat = $("#chat");
 let currentRoom = rooms[0];
+let realtimeChannel = null;
+let myUsername = "GUEST_01";
 
 function renderRooms(filter=""){
   const f = filter.trim().toLowerCase();
@@ -59,16 +61,48 @@ function renderMessages(){
 function messageHTML(name,text,time,avatar){
   return `<div class="message"><div class="avatar">${avatar}</div><div><div class="message-head">${escapeHtml(name)}<span class="message-time">${time}</span></div><div class="message-text">${escapeHtml(text)}</div></div></div>`;
 }
-function openRoom(room){
+async function openRoom(room){
   if(!room) return;
+
+  // Leave the previous room's realtime channel
+  if(realtimeChannel){
+    await supabase.removeChannel(realtimeChannel);
+    realtimeChannel = null;
+  }
+
   currentRoom=room;
   $("#activeRoomIcon").textContent=room.icon;
   $("#activeRoomName").textContent=room.name;
   $("#chatRoomIcon").textContent=room.icon;
   $("#chatTitle").textContent="# "+room.name;
   $("#memberCount").textContent=Math.max(2, Math.min(99, Math.round(room.count/12)));
-  directory.classList.remove("active"); chat.classList.add("active");
-  renderPeople(); renderMessages();
+
+  directory.classList.remove("active");
+  chat.classList.add("active");
+
+  renderPeople();
+  renderMessages();
+
+  // Create a realtime channel for this specific room
+  realtimeChannel = supabase.channel("room:" + room.name);
+
+  realtimeChannel
+    .on("broadcast", { event: "message" }, ({ payload }) => {
+      if(payload.username === myUsername) return;
+
+      $("#messages").insertAdjacentHTML(
+        "beforeend",
+        messageHTML(
+          payload.username,
+          payload.text,
+          payload.time,
+          payload.avatar
+        )
+      );
+
+      $("#messages").scrollTop=$("#messages").scrollHeight;
+    })
+    .subscribe();
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
@@ -76,7 +110,45 @@ roomSearch.oninput=()=>renderRooms(roomSearch.value);
 $("#peopleSearch").oninput=e=>renderPeople(e.target.value);
 $("#backBtn").onclick=()=>{chat.classList.remove("active");directory.classList.add("active")};
 
-function send(){
+function async function send(){
+  const input=$("#messageInput");
+  const text=input.value.trim();
+
+  if(!text || !realtimeChannel) return;
+
+  const now=new Date().toLocaleTimeString([], {
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+
+  const message = {
+    username: myUsername,
+    text: text,
+    time: now,
+    avatar: "◆"
+  };
+
+  // Show it immediately for yourself
+  $("#messages").insertAdjacentHTML(
+    "beforeend",
+    messageHTML(
+      message.username,
+      message.text,
+      message.time,
+      message.avatar
+    )
+  );
+
+  $("#messages").scrollTop=$("#messages").scrollHeight;
+  input.value="";
+
+  // Send it to everyone currently inside this room
+  await realtimeChannel.send({
+    type: "broadcast",
+    event: "message",
+    payload: message
+  });
+}{
   const input=$("#messageInput"), text=input.value.trim();
   if(!text)return;
   const now=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
