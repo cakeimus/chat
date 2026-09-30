@@ -1,9 +1,3 @@
-const SUPABASE_URL = "https://dzhtqwakoiysscrhwmjq.supabase.co";
-const SUPABASE_KEY = "sb_publishable_D-otq-A20zDR8mXD18Ud2g_bxLg2L5M";
-const supabase = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 const rooms = [
   {name:"general", icon:"🌐", count:234},
   {name:"music", icon:"🎵", count:86},
@@ -35,8 +29,7 @@ const roomSearch = $("#roomSearch");
 const directory = $("#directory");
 const chat = $("#chat");
 let currentRoom = rooms[0];
-let realtimeChannel = null;
-let myUsername = "GUEST_01";
+
 
 function renderRooms(filter=""){
   const f = filter.trim().toLowerCase();
