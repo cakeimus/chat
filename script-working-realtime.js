@@ -1,5 +1,5 @@
 const SUPABASE_URL = "https://dzhtqwakoiysscrhwmjq.supabase.co";
-const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY";
+const SUPABASE_KEY = "sb_publishable_D-otq-A20zDR8mXD18Ud2g_bxLg2L5M";
 
 const rooms = [
   {name:"general", icon:"🌐", count:234},
