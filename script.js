@@ -163,11 +163,16 @@ function connectSupabase(){
 /* =========================
    OPEN ROOM
 ========================= */
-
 async function openRoom(room){
 
   if(!room) return;
 
+  if(realtimeChannel){
+    await supabaseClient.removeChannel(realtimeChannel);
+    realtimeChannel = null;
+  }
+
+  realtimeReady = false;
   currentRoom = room;
 
   $("#activeRoomIcon").textContent = room.icon;
@@ -176,13 +181,7 @@ async function openRoom(room){
   $("#chatTitle").textContent = "# " + room.name;
 
   $("#memberCount").textContent =
-    Math.max(
-      2,
-      Math.min(
-        99,
-        Math.round(room.count / 12)
-      )
-    );
+    Math.max(2, Math.min(99, Math.round(room.count / 12)));
 
   directory.classList.remove("active");
   chat.classList.add("active");
@@ -190,66 +189,62 @@ async function openRoom(room){
   renderPeople();
   renderMessages();
 
-  realtimeReady = false;
-
-  if(!supabaseClient){
-    console.log("Room opened locally:", room.name);
-    return;
-  }
+  if(!supabaseClient) return;
 
   try {
 
-    if(realtimeChannel){
-      await supabaseClient.removeChannel(
-        realtimeChannel
-      );
-
-      realtimeChannel = null;
-    }
-
     realtimeChannel =
-      supabaseClient.channel(
-        "room:" + room.name
-      );
-   
+      supabaseClient.channel("room:" + room.name);
 
-    realtimeChannel
-      .on(
-        "broadcast",
-        { event: "message" },
-        ({ payload }) => {
+    realtimeChannel.on(
+      "broadcast",
+      { event: "message" },
+      ({ payload }) => {
 
-          if(
-            !payload ||
-            payload.username === myUsername
-          ){
-            return;
-          }
-
-          $("#messages").insertAdjacentHTML(
-            "beforeend",
-            messageHTML(
-              payload.username,
-              payload.text,
-              payload.time,
-              payload.avatar
-            )
-          );
-
-          $("#messages").scrollTop =
-            $("#messages").scrollHeight;
+        if(
+          !payload ||
+          payload.username === myUsername
+        ){
+          return;
         }
-      )
-      realtimeChannel.on("presence", { event: "sync" }, () => {
-  const state = realtimeChannel.presenceState();
 
-  const onlineUsers = Object.values(state)
-    .flat()
-    .map(user => user.username);
+        $("#messages").insertAdjacentHTML(
+          "beforeend",
+          messageHTML(
+            payload.username,
+            payload.text,
+            payload.time,
+            payload.avatar
+          )
+        );
 
-  console.log("Online users:", onlineUsers);
-});
-      .subscribe(status => {
+        $("#messages").scrollTop =
+          $("#messages").scrollHeight;
+      }
+    );
+
+    realtimeChannel.on(
+      "presence",
+      { event: "sync" },
+      () => {
+
+        const state =
+          realtimeChannel.presenceState();
+
+        const onlineUsers =
+          Object.values(state)
+            .flat()
+            .map(user => user.username);
+
+        console.log(
+          "Online users:",
+          onlineUsers
+        );
+      }
+    );
+
+    realtimeChannel.subscribe(
+      async status => {
 
         console.log(
           "Room:",
@@ -257,17 +252,33 @@ async function openRoom(room){
           "Status:",
           status
         );
-if(status === "SUBSCRIBED"){
-  realtimeReady = true;
 
-  realtimeChannel.track({
-    username: myUsername
-  }).then(() => {
-    console.log("Presence tracked:", myUsername);
-  });
-}
+        if(status === "SUBSCRIBED"){
 
-      });
+          realtimeReady = true;
+
+          try {
+
+            await realtimeChannel.track({
+              username: myUsername
+            });
+
+            console.log(
+              "Presence tracked:",
+              myUsername
+            );
+
+          } catch(error) {
+
+            console.error(
+              "Presence tracking failed:",
+              error
+            );
+
+          }
+        }
+      }
+    );
 
   } catch(error) {
 
@@ -280,7 +291,6 @@ if(status === "SUBSCRIBED"){
     realtimeReady = false;
   }
 }
-
 
 /* =========================
    UTILITY
