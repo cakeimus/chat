@@ -3,6 +3,9 @@ const SUPABASE_KEY = "sb_publishable_D-otq-A20zDR8mXD18Ud2g_bxLg2L5M";
 
 let supabaseClient = null;
 let realtimeChannel = null;
+let myPresence = {
+  username: myUsername
+};
 let realtimeReady = false;
 
 const rooms = [
@@ -208,6 +211,7 @@ async function openRoom(room){
       supabaseClient.channel(
         "room:" + room.name
       );
+    realtimeChannel.track(myPresence);
 
     realtimeChannel
       .on(
@@ -236,6 +240,15 @@ async function openRoom(room){
             $("#messages").scrollHeight;
         }
       )
+      realtimeChannel.on("presence", { event: "sync" }, () => {
+  const state = realtimeChannel.presenceState();
+
+  const onlineUsers = Object.values(state)
+    .flat()
+    .map(user => user.username);
+
+  console.log("Online users:", onlineUsers);
+});
       .subscribe(status => {
 
         console.log(
