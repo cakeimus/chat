@@ -1,5 +1,9 @@
 const SUPABASE_URL = "https://dzhtqwakoiysscrhwmjq.supabase.co";
 const SUPABASE_KEY = "sb_publishable_D-otq-A20zDR8mXD18Ud2g_bxLg2L5M";
+const supabase = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 const rooms = [
   {name:"general", icon:"🌐", count:234},
   {name:"music", icon:"🎵", count:86},
