@@ -107,7 +107,12 @@ function send(){
   if(!text)return;
   const now=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
   $("#messages").insertAdjacentHTML("beforeend",messageHTML("GUEST_01",text,now,"◆"));
-  input.value=""; $("#messages").scrollTop=$("#messages").scrollHeight;
+  input.value="";await realtimeChannel.send({
+  type: "broadcast",
+  event: "message",
+  payload: message
+});
+  $("#messages").scrollTop=$("#messages").scrollHeight;
 }
 $("#sendBtn").onclick=send;
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
