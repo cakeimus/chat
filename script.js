@@ -211,7 +211,7 @@ async function openRoom(room){
       supabaseClient.channel(
         "room:" + room.name
       );
-    realtimeChannel.track(myPresence);
+   
 
     realtimeChannel
       .on(
@@ -259,7 +259,7 @@ async function openRoom(room){
         );
 
         if(status === "SUBSCRIBED"){
-          realtimeReady = true;
+          realtimeReady = true;await realtimeChannel.track(myPresence);
         }
 
       });
