@@ -36,6 +36,8 @@ const roomSearch = $("#roomSearch");
 const directory = $("#directory");
 const chat = $("#chat");
 let currentRoom = rooms[0];
+let realtimeChannel = null;
+let myUsername = "GUEST_" + Math.floor(Math.random() * 9999);
 
 function renderRooms(filter=""){
   const f = filter.trim().toLowerCase();
