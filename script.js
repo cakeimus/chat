@@ -64,29 +64,6 @@ function messageHTML(name,text,time,avatar){
 }
 async function openRoom(room){
   if(!room) return;
-  if(realtimeChannel){
-  await supabase.removeChannel(realtimeChannel);
-}
-
-realtimeChannel = supabase.channel("room:" + room.name);
-
-realtimeChannel
-  .on("broadcast", { event: "message" }, ({ payload }) => {
-    if(payload.username === myUsername) return;
-
-    $("#messages").insertAdjacentHTML(
-      "beforeend",
-      messageHTML(
-        payload.username,
-        payload.text,
-        payload.time,
-        payload.avatar
-      )
-    );
-
-    $("#messages").scrollTop = $("#messages").scrollHeight;
-  })
-  .subscribe();
   currentRoom=room;
   $("#activeRoomIcon").textContent=room.icon;
   $("#activeRoomName").textContent=room.name;
