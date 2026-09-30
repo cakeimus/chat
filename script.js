@@ -257,10 +257,15 @@ async function openRoom(room){
           "Status:",
           status
         );
+if(status === "SUBSCRIBED"){
+  realtimeReady = true;
 
-        if(status === "SUBSCRIBED"){
-          realtimeReady = true;await realtimeChannel.track(myPresence);
-        }
+  realtimeChannel.track({
+    username: myUsername
+  }).then(() => {
+    console.log("Presence tracked:", myUsername);
+  });
+}
 
       });
 
