@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>E-CHAT // Y2K Chatrooms</title>
+  <meta name="description" content="A retro Y2K web chatroom.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="scanlines"></div>
+
+  <header class="topbar">
+    <div class="brand-left">
+      <div class="avatar tiny">◆</div>
+      <span class="username">GUEST_01</span>
+      <span class="mini-status online"></span>
+    </div>
+    <div class="logo">E-<span>✦</span>CHAT</div>
+    <div class="connection"><span class="led online"></span> CONNECTED</div>
+  </header>
+
+  <main class="page">
+    <section id="directory" class="view active">
+      <div class="intro">
+        <h1>Find Chat Room</h1>
+        <p>Select a room you'd like to join from the list below.</p>
+      </div>
+
+      <div class="searchbar chrome-panel">
+        <div class="search-input">
+          <span>⌕</span>
+          <input id="roomSearch" type="text" placeholder="Find chatroom" autocomplete="off">
+        </div>
+        <button id="createBtn" class="old-btn red">Create Chatroom</button>
+      </div>
+
+      <section class="room-box">
+        <div class="box-title">Most Popular</div>
+        <div id="roomGrid" class="room-grid"></div>
+      </section>
+
+      <div class="status-strip">
+        <span>SERVER: Y2K-01</span>
+        <span>ROOMS: <b id="roomCount">0</b></span>
+        <span>USERS ONLINE: <b id="userCount">128</b></span>
+      </div>
+    </section>
+
+    <section id="chat" class="view">
+      <div class="chat-shell">
+        <aside class="sidebar">
+          <button id="backBtn" class="back-btn">← ALL CHATROOMS</button>
+
+          <div class="room-select">
+            <span id="activeRoomIcon">🌐</span>
+            <strong id="activeRoomName">general</strong>
+            <span>▼</span>
+          </div>
+
+          <label class="find-label">FIND PEOPLE</label>
+          <div class="people-search">
+            <input id="peopleSearch" placeholder="Find people">
+            <button>⌕</button>
+          </div>
+
+          <div class="people-heading">— PEOPLE IN CHATROOM —</div>
+          <div id="peopleList" class="people-list"></div>
+        </aside>
+
+        <section class="chat-main">
+          <div class="chat-title">
+            <div>
+              <span id="chatRoomIcon">🌐</span>
+              <strong id="chatTitle"># general</strong>
+            </div>
+            <div class="room-meta"><span class="led online"></span><span id="memberCount">8</span> online</div>
+          </div>
+
+          <div id="messages" class="messages"></div>
+
+          <div class="composer">
+            <textarea id="messageInput" rows="2" placeholder="Type your message..."></textarea>
+            <div class="composer-actions">
+              <button id="micBtn" class="icon-btn" title="Enable microphone">🎙 MIC</button>
+              <button id="sendBtn" class="old-btn blue">SEND</button>
+            </div>
+          </div>
+
+          <div id="micStatus" class="mic-status hidden">
+            <span class="led red-led"></span>
+            Microphone active — local preview only
+            <button id="stopMic">STOP</button>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <div id="createModal" class="modal hidden">
+    <div class="modal-window">
+      <div class="modal-head">CREATE CHATROOM <button id="closeModal">×</button></div>
+      <label>Room name</label>
+      <input id="newRoomName" placeholder="e.g. midnight_radio">
+      <label>Icon</label>
+      <input id="newRoomIcon" value="💬" maxlength="2">
+      <div class="modal-actions">
+        <button id="cancelCreate" class="old-btn">CANCEL</button>
+        <button id="confirmCreate" class="old-btn blue">CREATE</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>© 2026 E-CHAT</span>
+    <span>best viewed with a little nostalgia ✦</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

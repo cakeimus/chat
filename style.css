@@ -1,0 +1,85 @@
+*{box-sizing:border-box}
+:root{
+  --blue:#4d82bd; --blue2:#dcecff; --line:#aeb9c5; --silver:#e4e4e4;
+  --text:#27313b; --muted:#68737d; --green:#35c957; --red:#c94837;
+}
+html,body{margin:0;min-height:100%;font-family:Tahoma,Arial,sans-serif;color:var(--text);background:#f7f7f7}
+body{font-size:13px}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.scanlines{position:fixed;inset:0;pointer-events:none;opacity:.035;background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,#000 3px);z-index:20}
+.topbar{height:52px;background:linear-gradient(#eee,#d8d8d8);border-top:1px solid #c4c4c4;border-bottom:1px solid #aaa;display:flex;align-items:center;justify-content:space-between;padding:0 max(18px,calc((100% - 1120px)/2));box-shadow:0 1px 0 #fff inset}
+.brand-left{display:flex;align-items:center;gap:8px;color:#68717a}
+.avatar{display:grid;place-items:center;background:linear-gradient(#dff0ff,#9fc4e9);border:1px solid #a2b7ca;color:#fff;box-shadow:inset 1px 1px #fff}
+.avatar.tiny{width:32px;height:32px;font-size:14px}
+.username{font-size:14px;letter-spacing:.3px}
+.mini-status{width:7px;height:7px;border-radius:50%;display:inline-block}
+.logo{font:bold 25px Georgia,serif;letter-spacing:-1px;color:#3f4448;text-shadow:1px 1px #fff}
+.logo span{color:#f1c400}
+.connection{font-size:10px;color:#68717a;letter-spacing:1px}
+.led{display:inline-block;width:7px;height:7px;border-radius:50%;background:#aaa;box-shadow:0 0 3px currentColor;margin-right:5px}
+.online{background:var(--green);color:var(--green)}
+.page{width:min(1080px,calc(100% - 28px));margin:0 auto;min-height:calc(100vh - 92px)}
+.view{display:none}.view.active{display:block}
+.intro{text-align:center;padding:15px 0 14px}
+.intro h1{font-size:24px;margin:0 0 7px;color:#20262b}
+.intro p{margin:0;color:#666;font-weight:bold}
+.chrome-panel{background:linear-gradient(#dedede,#eeeeee,#d7d7d7);border:1px solid #c6c6c6;box-shadow:inset 0 1px #fff,0 1px 2px #ddd}
+.searchbar{height:47px;padding:7px 44px;display:flex;justify-content:space-between;align-items:center}
+.search-input{width:270px;height:31px;display:flex;background:#fff;border:1px solid #b9b9b9;box-shadow:inset 1px 1px 3px #ddd}
+.search-input span{font-size:24px;line-height:28px;padding-left:8px;color:#69747c}
+.search-input input{border:0;outline:0;width:100%;padding:4px 8px;background:transparent}
+.old-btn{border:1px solid #a7a7a7;background:linear-gradient(#fff,#ddd);color:#42484d;padding:6px 14px;box-shadow:inset 0 1px #fff,0 1px 1px #aaa;border-radius:2px}
+.old-btn:active{box-shadow:inset 1px 1px 3px #999;transform:translateY(1px)}
+.old-btn.red{background:linear-gradient(#dc6654,#bd392a);border-color:#a93428;color:white;text-shadow:0 -1px #923025}
+.old-btn.blue{background:linear-gradient(#76a8da,#3f72a8);border-color:#37638e;color:white;text-shadow:0 -1px #31587c}
+.room-box{margin-top:24px;border:1px solid #9eabb7;background:linear-gradient(90deg,#fafafa,#fff,#f7f7f7);box-shadow:0 1px 2px #ddd}
+.box-title{height:27px;display:inline-flex;align-items:center;padding:0 11px;background:linear-gradient(#78a8d2,#4c82b7);color:#fff;font-weight:bold;border-right:1px solid #547c9e;border-bottom:1px solid #527b9d}
+.room-grid{display:grid;grid-template-columns:repeat(3,1fr);padding:7px 12px 12px}
+.room{min-height:46px;display:flex;align-items:center;gap:10px;padding:6px 9px;border:1px solid transparent;transition:.12s;background:transparent}
+.room:hover{background:linear-gradient(#edf6ff,#dcecff);border-color:#b8cee2}
+.room-icon{width:25px;text-align:center;font-size:19px}
+.room-info{min-width:0}.room-name{color:#425b76;font-weight:bold;text-decoration:underline}.room-count{color:#858b91;margin-left:4px}
+.status-strip{margin-top:8px;padding:7px 10px;color:#7a8288;font-size:10px;display:flex;gap:24px;border-top:1px solid #ddd}
+.chat-shell{margin-top:10px;height:calc(100vh - 82px);min-height:560px;display:grid;grid-template-columns:270px 1fr;border:1px solid #aab5bf;background:white;box-shadow:0 2px 8px #ddd}
+.sidebar{background:linear-gradient(90deg,#f2f2f2,#fafafa);border-right:1px solid #bbc4cc;padding:7px;overflow:hidden}
+.back-btn{border:0;background:none;color:#4d78a0;font-size:10px;font-weight:bold;padding:5px 3px;margin-bottom:6px}
+.room-select{height:43px;border:1px solid #8fa8c0;background:linear-gradient(#76a7d7,#4f82b8);color:#fff;display:grid;grid-template-columns:28px 1fr 20px;align-items:center;padding:0 8px;font-size:15px;box-shadow:inset 0 1px #c8e2f9}
+.find-label,.people-heading{display:block;color:#8b7650;font-size:10px;font-weight:bold;text-align:center;margin:12px 0 5px}
+.people-search{height:32px;display:flex;border:1px solid #c0c6cb;background:#fff}
+.people-search input{border:0;outline:0;width:100%;padding:5px 8px}
+.people-search button{border:0;border-left:1px solid #ddd;background:#eee;width:34px;font-size:18px}
+.people-list{overflow:auto;height:calc(100% - 142px)}
+.person{display:flex;align-items:center;gap:8px;padding:4px 6px;color:#48617c}
+.person:hover{background:#e9f2fb}
+.person .avatar{width:27px;height:27px;flex:none;font-size:11px}
+.person .pname{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:bold}
+.person .pstatus{margin-left:auto;width:7px;height:7px;border-radius:50%;background:#39ca55;flex:none}
+.chat-main{display:grid;grid-template-rows:45px 1fr auto auto;min-width:0}
+.chat-title{display:flex;justify-content:space-between;align-items:center;padding:0 13px;border-bottom:1px solid #c6cdd3;background:linear-gradient(#f9f9f9,#e9e9e9);color:#44596e}
+.chat-title strong{font-size:15px}.room-meta{font-size:10px;color:#7a8288}
+.messages{padding:10px 13px;overflow:auto;background:#fff}
+.message{display:grid;grid-template-columns:34px 1fr;gap:7px;margin-bottom:10px}
+.message .avatar{width:30px;height:30px;font-size:10px}
+.message-head{font-size:11px;color:#54759a;font-weight:bold}.message-time{color:#999;font-weight:normal;margin-left:6px}
+.message-text{font-size:14px;margin-top:2px;color:#20252a;word-break:break-word}
+.composer{border-top:1px solid #aeb8c1;background:#eee;padding:7px;display:flex;gap:7px}
+.composer textarea{resize:none;flex:1;border:1px solid #9da9b4;background:#fff;outline:0;padding:8px;box-shadow:inset 1px 1px 3px #ddd}
+.composer textarea:focus{border-color:#709bc2;box-shadow:0 0 0 1px #c6dff4}
+.composer-actions{display:flex;flex-direction:column;gap:5px}.icon-btn{border:1px solid #aab1b7;background:linear-gradient(#fff,#ddd);font-size:11px;color:#4e5961;padding:5px 8px}
+.mic-status{background:#eef8ef;border-top:1px solid #b6d9bb;padding:5px 8px;font-size:10px;color:#46714c}.red-led{background:#e24436;color:#e24436}
+.mic-status button{float:right;border:0;background:none;font-size:10px;font-weight:bold;color:#9a3a32}
+.hidden{display:none!important}
+.modal{position:fixed;inset:0;background:rgba(20,30,40,.25);display:grid;place-items:center;z-index:30}
+.modal-window{width:330px;background:#eee;border:1px solid #7d8994;box-shadow:4px 5px 18px #777;padding:0 14px 14px}
+.modal-head{margin:0 -14px 13px;padding:7px 9px;background:linear-gradient(#6e9ed0,#4677ad);color:#fff;font-weight:bold}
+.modal-head button{float:right;border:0;background:none;color:white;font-size:18px;line-height:12px}
+.modal-window label{display:block;font-size:11px;color:#68737d;margin:9px 0 3px}.modal-window input{width:100%;padding:7px;border:1px solid #adb7c0;outline:0}
+.modal-actions{display:flex;justify-content:flex-end;gap:6px;margin-top:13px}
+footer{height:40px;max-width:1080px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;color:#9aa1a6;font-size:10px;border-top:1px solid #ddd}
+@media(max-width:760px){
+  .connection{display:none}.room-grid{grid-template-columns:1fr 1fr}.searchbar{padding:7px 10px}.search-input{width:58%}
+  .chat-shell{grid-template-columns:1fr;height:calc(100vh - 65px);min-height:0}.sidebar{display:none}
+  .chat-title{font-size:12px}.page{width:calc(100% - 10px)}
+}
+@media(max-width:470px){.room-grid{grid-template-columns:1fr}.logo{font-size:20px}.username{display:none}.composer{flex-direction:column}.composer-actions{flex-direction:row}.composer-actions .old-btn{flex:1}}
