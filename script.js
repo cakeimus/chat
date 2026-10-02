@@ -97,6 +97,7 @@ realtimeChannel=supabaseClient.channel("room:"+room.name);
   console.log("Updating online users:", users);
 
   onlineUsers = users;
+    renderPeople();
 }
   
 realtimeChannel.on("presence", { event: "sync" }, () => {
