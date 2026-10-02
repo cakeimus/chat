@@ -94,6 +94,10 @@ async function openRoom(room){
 
 realtimeChannel=supabaseClient.channel("room:"+room.name);
 
+function updateOnlineUsers(onlineUsers){
+  console.log("Updating online users:", onlineUsers);
+}  
+  
 realtimeChannel.on("presence", { event: "sync" }, () => {
   console.log(
     "Online usernames:",
@@ -101,6 +105,13 @@ realtimeChannel.on("presence", { event: "sync" }, () => {
       .flat()
       .map(user => user.username)
   );
+
+  updateOnlineUsers(
+  Object.values(realtimeChannel.presenceState())
+    .flat()
+    .map(user => user.username)
+);
+  
 });
 
 
