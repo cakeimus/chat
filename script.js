@@ -94,6 +94,13 @@ async function openRoom(room){
 
   realtimeChannel=supabaseClient.channel("room:"+room.name);
 
+  realtimeChannel.on("presence", { event: "sync" }, () => {
+  console.log("Online users:", realtimeChannel.presenceState());
+});
+
+realtimeChannel
+  .on("broadcast", { event: "message" }, ({ payload }) => {
+
  realtimeChannel
   .on("broadcast", { event: "message" }, ({ payload }) => {
     if(payload.username === myUsername) return;
