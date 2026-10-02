@@ -92,7 +92,7 @@ async function openRoom(room){
 
 realtimeChannel=supabaseClient.channel("room:"+room.name);
 
-let onlineUsers = [];
+
   function updateOnlineUsers(users){
   console.log("Updating online users:", users);
 
