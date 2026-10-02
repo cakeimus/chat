@@ -73,6 +73,14 @@ function messageHTML(name,text,time,avatar){
     </div>
   </div>`;
 }
+function startReply(name, text){
+  replyingTo = {
+    name: name,
+    text: text
+  };
+
+  console.log("Replying to:", replyingTo);
+}
   
 async function openRoom(room){
   if(!room) return;
