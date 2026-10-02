@@ -105,6 +105,7 @@ realtimeChannel.on("presence", { event: "sync" }, () => {
       .flat()
       .map(user => user.username)
   );
+  renderPeople();
 
   updateOnlineUsers(
   Object.values(realtimeChannel.presenceState())
