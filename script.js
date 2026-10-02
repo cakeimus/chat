@@ -55,7 +55,8 @@ function renderRooms(filter=""){
 }
 function renderPeople(filter=""){
   const f=filter.trim().toLowerCase();
-  $("#peopleList").innerHTML=people.filter(p=>p[0].includes(f)).map(p=>`
+  const onlinePeople = onlineUsers.map(username => [username, "◆"]);
+  $("#peopleList").innerHTML=onlinePeople.filter(p=>p[0].includes(f)).map(p=>`
     <div class="person"><div class="avatar">${p[1]}</div><span class="pname">${escapeHtml(p[0])}</span><span class="pstatus"></span></div>`).join("");
 }
 function renderMessages(){
@@ -94,18 +95,11 @@ async function openRoom(room){
 
 realtimeChannel=supabaseClient.channel("room:"+room.name);
 
-function updateOnlineUsers(onlineUsers){
-  console.log("Updating online users:", onlineUsers);
+let onlineUsers = [];
+  function updateOnlineUsers(users){
+  console.log("Updating online users:", users);
 
-  const peopleList = $("#peopleList");
-
-  peopleList.innerHTML = onlineUsers.map(username => `
-    <div class="person">
-      <div class="avatar">◆</div>
-      <span class="pname">${escapeHtml(username)}</span>
-      <span class="pstatus"></span>
-    </div>
-  `).join("");
+  onlineUsers = users;
 }
   
 realtimeChannel.on("presence", { event: "sync" }, () => {
