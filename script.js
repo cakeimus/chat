@@ -90,12 +90,17 @@ async function openRoom(room){
     realtimeChannel=null;
   }
 
-  realtimeReady=false;
+ realtimeReady=false;
 
-  realtimeChannel=supabaseClient.channel("room:"+room.name);
+realtimeChannel=supabaseClient.channel("room:"+room.name);
 
-  realtimeChannel.on("presence", { event: "sync" }, () => {
-  console.log("Online users:", realtimeChannel.presenceState());
+realtimeChannel.on("presence", { event: "sync" }, () => {
+  console.log(
+    "Online usernames:",
+    Object.values(realtimeChannel.presenceState())
+      .flat()
+      .map(user => user.username)
+  );
 });
 
 
