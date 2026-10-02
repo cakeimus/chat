@@ -96,7 +96,17 @@ realtimeChannel=supabaseClient.channel("room:"+room.name);
 
 function updateOnlineUsers(onlineUsers){
   console.log("Updating online users:", onlineUsers);
-}  
+
+  const peopleList = $("#peopleList");
+
+  peopleList.innerHTML = onlineUsers.map(username => `
+    <div class="person">
+      <div class="avatar">◆</div>
+      <span class="pname">${escapeHtml(username)}</span>
+      <span class="pstatus"></span>
+    </div>
+  `).join("");
+}
   
 realtimeChannel.on("presence", { event: "sync" }, () => {
   console.log(
