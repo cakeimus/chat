@@ -60,7 +60,7 @@ function renderMessages(){
   $("#messages").innerHTML = starterMessages.map(m => messageHTML(...m)).join("");
   $("#messages").scrollTop = $("#messages").scrollHeight;
 }
-function messageHTML(name,text,time,avatar){
+function messageHTML(name,text,time,avatar,replyTo=null){
   return `<div class="message">
     <div class="avatar">${avatar}</div>
     <div>
@@ -69,7 +69,8 @@ function messageHTML(name,text,time,avatar){
         <span class="message-time">${time}</span>
         <button class="reply-btn" onclick="startReply('${escapeHtml(name)}','${escapeHtml(text)}')">REPLY</button>
       </div>
-      <div class="message-text">${escapeHtml(text)}</div>
+      ${replyTo ? `<div class="reply-preview">↳ ${escapeHtml(replyTo.name)}: ${escapeHtml(replyTo.text)}</div>` : ""}
+<div class="message-text">${escapeHtml(text)}</div>
     </div>
   </div>`;
 }
