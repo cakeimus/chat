@@ -113,6 +113,7 @@ async function openRoom(room){
   .subscribe(status=>{
     if(status==="SUBSCRIBED"){
       realtimeReady=true;
+      await realtimeChannel.track({ username: myUsername });
       console.log("Realtime connected to:", room.name);
     }
   });
