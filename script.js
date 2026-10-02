@@ -79,6 +79,9 @@ function startReply(name, text){
     text: text
   };
 
+  $("#replyText").textContent = "Replying to " + name + ": " + text;
+  $("#replyBar").classList.remove("hidden");
+
   console.log("Replying to:", replyingTo);
 }
   
