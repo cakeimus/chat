@@ -74,6 +74,21 @@ function openRoom(room){
   $("#memberCount").textContent=Math.max(2, Math.min(99, Math.round(room.count/12)));
   directory.classList.remove("active"); chat.classList.add("active");
   renderPeople(); renderMessages();
+  if (realtimeChannel) {
+  await supabaseClient.removeChannel(realtimeChannel);
+  realtimeChannel = null;
+}
+
+realtimeReady = false;
+
+realtimeChannel = supabaseClient.channel("room:" + room.name);
+
+realtimeChannel.subscribe(status => {
+  if (status === "SUBSCRIBED") {
+    realtimeReady = true;
+    console.log("Realtime connected to:", room.name);
+  }
+});
 }
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
