@@ -186,7 +186,8 @@ async function send(){
     username:myUsername,
     text:text,
     time:now,
-    avatar:"◆"
+    avatar:"◆",
+    replyTo:replyingTo
   };
 
   $("#messages").insertAdjacentHTML(
