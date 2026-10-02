@@ -197,7 +197,8 @@ async function send(){
       message.username,
       message.text,
       message.time,
-      message.avatar
+      message.avatar,
+      message.replyTo
     )
   );
 
