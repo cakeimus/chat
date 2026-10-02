@@ -64,32 +64,43 @@ function renderMessages(){
 function messageHTML(name,text,time,avatar){
   return `<div class="message"><div class="avatar">${avatar}</div><div><div class="message-head">${escapeHtml(name)}<span class="message-time">${time}</span></div><div class="message-text">${escapeHtml(text)}</div></div></div>`;
 }
-function openRoom(room){
+async function openRoom(room){
   if(!room) return;
+
   currentRoom=room;
+
   $("#activeRoomIcon").textContent=room.icon;
   $("#activeRoomName").textContent=room.name;
   $("#chatRoomIcon").textContent=room.icon;
   $("#chatTitle").textContent="# "+room.name;
-  $("#memberCount").textContent=Math.max(2, Math.min(99, Math.round(room.count/12)));
-  directory.classList.remove("active"); chat.classList.add("active");
-  renderPeople(); renderMessages();
-  if (realtimeChannel) {
-  await supabaseClient.removeChannel(realtimeChannel);
-  realtimeChannel = null;
-}
+  $("#memberCount").textContent=Math.max(
+    2,
+    Math.min(99, Math.round(room.count/12))
+  );
 
-realtimeReady = false;
+  directory.classList.remove("active");
+  chat.classList.add("active");
 
-realtimeChannel = supabaseClient.channel("room:" + room.name);
+  renderPeople();
+  renderMessages();
 
-realtimeChannel.subscribe(status => {
-  if (status === "SUBSCRIBED") {
-    realtimeReady = true;
-    console.log("Realtime connected to:", room.name);
+  if(realtimeChannel){
+    await supabaseClient.removeChannel(realtimeChannel);
+    realtimeChannel=null;
   }
-});
+
+  realtimeReady=false;
+
+  realtimeChannel=supabaseClient.channel("room:"+room.name);
+
+  realtimeChannel.subscribe(status=>{
+    if(status==="SUBSCRIBED"){
+      realtimeReady=true;
+      console.log("Realtime connected to:", room.name);
+    }
+  });
 }
+
 function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
 
 roomSearch.oninput=()=>renderRooms(roomSearch.value);
