@@ -96,7 +96,23 @@ async function openRoom(room){
 
   realtimeChannel=supabaseClient.channel("room:"+room.name);
 
-  realtimeChannel.subscribe(status=>{
+ realtimeChannel
+  .on("broadcast", { event: "message" }, ({ payload }) => {
+    if(payload.username === myUsername) return;
+
+    $("#messages").insertAdjacentHTML(
+      "beforeend",
+      messageHTML(
+        payload.username,
+        payload.text,
+        payload.time,
+        payload.avatar
+      )
+    );
+
+    $("#messages").scrollTop($("#messages").scrollHeight);
+  })
+  .subscribe(status=>{
     if(status==="SUBSCRIBED"){
       realtimeReady=true;
       console.log("Realtime connected to:", room.name);
@@ -110,12 +126,45 @@ roomSearch.oninput=()=>renderRooms(roomSearch.value);
 $("#peopleSearch").oninput=e=>renderPeople(e.target.value);
 $("#backBtn").onclick=()=>{chat.classList.remove("active");directory.classList.add("active")};
 
-function send(){
-  const input=$("#messageInput"), text=input.value.trim();
+async function send(){
+  const input=$("#messageInput");
+  const text=input.value.trim();
+
   if(!text)return;
-  const now=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
-  $("#messages").insertAdjacentHTML("beforeend",messageHTML("GUEST_01",text,now,"◆"));
-  input.value=""; $("#messages").scrollTop=$("#messages").scrollHeight;
+
+  const now=new Date().toLocaleTimeString([], {
+    hour:"2-digit",
+    minute:"2-digit"
+  });
+
+  const message={
+    username:myUsername,
+    text:text,
+    time:now,
+    avatar:"◆"
+  };
+
+  $("#messages").insertAdjacentHTML(
+    "beforeend",
+    messageHTML(
+      message.username,
+      message.text,
+      message.time,
+      message.avatar
+    )
+  );
+
+  input.value="";
+  $("#messages").scrollTop=$("#messages").scrollHeight;
+
+  if(realtimeChannel && realtimeReady){
+    await realtimeChannel.send({
+      type:"broadcast",
+      event:"message",
+      payload:message
+    });
+  }
+}
 }
 $("#sendBtn").onclick=send;
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
