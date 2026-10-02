@@ -98,8 +98,6 @@ async function openRoom(room){
   console.log("Online users:", realtimeChannel.presenceState());
 });
 
-realtimeChannel
-  .on("broadcast", { event: "message" }, ({ payload }) => {
 
  realtimeChannel
   .on("broadcast", { event: "message" }, ({ payload }) => {
