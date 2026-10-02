@@ -108,7 +108,7 @@ async function openRoom(room){
       )
     );
 
-    $("#messages").scrollTop($("#messages").scrollHeight);
+    $("#messages").scrollTop=$("#messages").scrollHeight;
   })
   .subscribe(status=>{
     if(status==="SUBSCRIBED"){
