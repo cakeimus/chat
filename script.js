@@ -61,8 +61,19 @@ function renderMessages(){
   $("#messages").scrollTop = $("#messages").scrollHeight;
 }
 function messageHTML(name,text,time,avatar){
-  return `<div class="message"><div class="avatar">${avatar}</div><div><div class="message-head">${escapeHtml(name)}<span class="message-time">${time}</span></div><div class="message-text">${escapeHtml(text)}</div></div></div>`;
+  return `<div class="message">
+    <div class="avatar">${avatar}</div>
+    <div>
+      <div class="message-head">
+        ${escapeHtml(name)}
+        <span class="message-time">${time}</span>
+        <button class="reply-btn" onclick="startReply('${escapeHtml(name)}','${escapeHtml(text)}')">REPLY</button>
+      </div>
+      <div class="message-text">${escapeHtml(text)}</div>
+    </div>
+  </div>`;
 }
+  
 async function openRoom(room){
   if(!room) return;
 
