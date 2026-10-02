@@ -117,7 +117,7 @@ realtimeChannel
 
     $("#messages").scrollTop=$("#messages").scrollHeight;
   })
-  .subscribe(status=>{
+  .subscribe(async status=>{
     if(status==="SUBSCRIBED"){
       realtimeReady=true;
       await realtimeChannel.track({ username: myUsername });
