@@ -38,6 +38,8 @@ const roomSearch = $("#roomSearch");
 const directory = $("#directory");
 const chat = $("#chat");
 let currentRoom = rooms[0];
+let realtimeChannel = null;
+let realtimeReady = false;
 
 function renderRooms(filter=""){
   const f = filter.trim().toLowerCase();
