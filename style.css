@@ -41,7 +41,7 @@ button{cursor:pointer}
 .room-icon{width:25px;text-align:center;font-size:19px}
 .room-info{min-width:0}.room-name{color:#425b76;font-weight:bold;text-decoration:underline}.room-count{color:#858b91;margin-left:4px}
 .status-strip{margin-top:8px;padding:7px 10px;color:#7a8288;font-size:10px;display:flex;gap:24px;border-top:1px solid #ddd}
-.chat-shell{margin-top:10px;height:calc(100vh - 82px);min-height:560px;display:grid;grid-template-columns:270px 1fr;border:1px solid #aab5bf;background:white;box-shadow:0 2px 8px #ddd}
+.chat-shell{margin-top:10px;height:calc(100vh - 82px);min-height:560px;display:grid;grid-template-columns:270px 1fr;border:1px solid #aab5bf;background:white;box-shadow:0 2px 8px #ddd;overflow:hidden}
 .sidebar{background:linear-gradient(90deg,#f2f2f2,#fafafa);border-right:1px solid #bbc4cc;padding:7px;overflow:hidden}
 .back-btn{border:0;background:none;color:#4d78a0;font-size:10px;font-weight:bold;padding:5px 3px;margin-bottom:6px}
 .room-select{height:43px;border:1px solid #8fa8c0;background:linear-gradient(#76a7d7,#4f82b8);color:#fff;display:grid;grid-template-columns:28px 1fr 20px;align-items:center;padding:0 8px;font-size:15px;box-shadow:inset 0 1px #c8e2f9}
