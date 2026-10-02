@@ -211,10 +211,6 @@ async function send(){
   }
 }
 $("#sendBtn").onclick=send;
-$("#cancelReply").onclick=()=>{
-  replyingTo=null;
-  $("#replyBar").classList.add("hidden");
-};
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
 
 const modal=$("#createModal");
@@ -247,3 +243,7 @@ $("#stopMic").onclick=()=>{
 };
 
 renderRooms(); renderPeople();
+$("#cancelReply").onclick=()=>{
+  replyingTo=null;
+  $("#replyBar").classList.add("hidden");
+};
