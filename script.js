@@ -19,10 +19,6 @@ const rooms = [
   {name:"midnight_radio", icon:"📻", count:19}
 ];
 
-const people = [
-  ["neonboy","◆"],["rexx","R"],["2004","04"],["nokia.exe","N"],["pixelkid","P"],
-  ["starbyte","★"],["cyber_ash","C"],["guest_17","G"],["moonunit","M"],["void.txt","V"]
-];
 
 const starterMessages = [
   ["neonboy","yo what's up","16:42","◆"],
