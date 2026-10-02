@@ -38,6 +38,7 @@ let realtimeChannel = null;
 let realtimeReady = false;
 let myUsername = "GUEST_" + Math.floor(Math.random() * 9999);
 let onlineUsers = [];
+let replyingTo = null;
 
 function renderRooms(filter=""){
   const f = filter.trim().toLowerCase();
