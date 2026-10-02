@@ -163,7 +163,6 @@ async function send(){
     });
   }
 }
-}
 $("#sendBtn").onclick=send;
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
 
