@@ -68,6 +68,19 @@ button{cursor:pointer}
 .message{display:grid;grid-template-columns:34px 1fr;gap:7px;margin-bottom:10px}
 .message .avatar{width:30px;height:30px;font-size:10px}
 .message-head{font-size:11px;color:#54759a;font-weight:bold}.message-time{color:#999;font-weight:normal;margin-left:6px}
+.reply-preview{
+  display:inline-block;
+  margin-bottom:4px;
+  padding:3px 6px;
+  border-left:3px solid #7b9fbd;
+  background:#eef3f7;
+  color:#687985;
+  font-size:10px;
+  max-width:90%;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 .message-text{font-size:14px;margin-top:2px;color:#20252a;word-break:break-word}
 .reply-bar{
   display:flex;
