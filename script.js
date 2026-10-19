@@ -154,6 +154,7 @@ realtimeChannel.on("presence", { event: "sync" }, () => {
         payload.text,
         payload.time,
         payload.avatar
+        payload.replyTo
       )
     );
 
