@@ -213,6 +213,7 @@ async function send(){
       type:"broadcast",
       event:"message",
       payload:message
+      console.log("Broadcast sent");
     });
   }
 }
