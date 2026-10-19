@@ -208,22 +208,21 @@ async function send(){
   input.value="";
   $("#messages").scrollTop=$("#messages").scrollHeight;
 
-  if(realtimeChannel && realtimeReady){
-    console.log("Sending message:", message);
 
-   realtimeChannel.send({
-  type:"broadcast",
-  event:"message",
-  payload:message
-}).then(result => {
-  console.log("Broadcast result:", result);
-}).catch(error => {
-  console.error("Broadcast error:", error);
-});
+if (realtimeChannel && realtimeReady) {
+  console.log("Sending message:", message);
 
+  realtimeChannel.send({
+    type: "broadcast",
+    event: "message",
+    payload: message
+  }).then(result => {
     console.log("Broadcast result:", result);
-  }
+  }).catch(error => {
+    console.error("Broadcast error:", error);
+  });
 }
+
 
 $("#sendBtn").onclick=send;
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
