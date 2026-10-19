@@ -144,6 +144,7 @@ realtimeChannel.on("presence", { event: "sync" }, () => {
 
  realtimeChannel
   .on("broadcast", { event: "message" }, ({ payload }) => {
+    console.log("Received message:", payload);
     if(payload.username === myUsername) return;
 
     $("#messages").insertAdjacentHTML(
