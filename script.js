@@ -207,6 +207,7 @@ async function send(){
   $("#messages").scrollTop=$("#messages").scrollHeight;
 
   if(realtimeChannel && realtimeReady){
+    console.log("Sending message:", message);
     await realtimeChannel.send({
       type:"broadcast",
       event:"message",
