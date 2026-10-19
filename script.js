@@ -174,6 +174,7 @@ roomSearch.oninput=()=>renderRooms(roomSearch.value);
 $("#peopleSearch").oninput=e=>renderPeople(e.target.value);
 $("#backBtn").onclick=()=>{chat.classList.remove("active");directory.classList.add("active")};
 
+
 async function send(){
   const input=$("#messageInput");
   const text=input.value.trim();
@@ -209,14 +210,17 @@ async function send(){
 
   if(realtimeChannel && realtimeReady){
     console.log("Sending message:", message);
-    await realtimeChannel.send({
+
+    const result = await realtimeChannel.send({
       type:"broadcast",
       event:"message",
       payload:message
-      console.log("Broadcast sent");
     });
+
+    console.log("Broadcast result:", result);
   }
 }
+
 $("#sendBtn").onclick=send;
 $("#messageInput").addEventListener("keydown",e=>{if(e.key==="Enter"&&!e.shiftKey){e.preventDefault();send()}});
 
