@@ -211,11 +211,15 @@ async function send(){
   if(realtimeChannel && realtimeReady){
     console.log("Sending message:", message);
 
-    const result = await realtimeChannel.send({
-      type:"broadcast",
-      event:"message",
-      payload:message
-    });
+   realtimeChannel.send({
+  type:"broadcast",
+  event:"message",
+  payload:message
+}).then(result => {
+  console.log("Broadcast result:", result);
+}).catch(error => {
+  console.error("Broadcast error:", error);
+});
 
     console.log("Broadcast result:", result);
   }
