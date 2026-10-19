@@ -175,23 +175,24 @@ $("#peopleSearch").oninput=e=>renderPeople(e.target.value);
 $("#backBtn").onclick=()=>{chat.classList.remove("active");directory.classList.add("active")};
 
 
+
 async function send(){
-  const input=$("#messageInput");
-  const text=input.value.trim();
+  const input = $("#messageInput");
+  const text = input.value.trim();
 
-  if(!text)return;
+  if (!text) return;
 
-  const now=new Date().toLocaleTimeString([], {
-    hour:"2-digit",
-    minute:"2-digit"
+  const now = new Date().toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
   });
 
-  const message={
-    username:myUsername,
-    text:text,
-    time:now,
-    avatar:"◆",
-    replyTo:replyingTo
+  const message = {
+    username: myUsername,
+    text: text,
+    time: now,
+    avatar: "◆",
+    replyTo: replyingTo
   };
 
   $("#messages").insertAdjacentHTML(
@@ -205,22 +206,22 @@ async function send(){
     )
   );
 
-  input.value="";
-  $("#messages").scrollTop=$("#messages").scrollHeight;
+  input.value = "";
+  $("#messages").scrollTop = $("#messages").scrollHeight;
 
+  if (realtimeChannel && realtimeReady) {
+    console.log("Sending message:", message);
 
-if (realtimeChannel && realtimeReady) {
-  console.log("Sending message:", message);
-
-  realtimeChannel.send({
-    type: "broadcast",
-    event: "message",
-    payload: message
-  }).then(result => {
-    console.log("Broadcast result:", result);
-  }).catch(error => {
-    console.error("Broadcast error:", error);
-  });
+    realtimeChannel.send({
+      type: "broadcast",
+      event: "message",
+      payload: message
+    }).then(result => {
+      console.log("Broadcast result:", result);
+    }).catch(error => {
+      console.error("Broadcast error:", error);
+    });
+  }
 }
 
 
